@@ -8,6 +8,8 @@ import cloud.terium.teriumapi.event.Subscribe;
 import cloud.terium.teriumapi.events.player.CloudPlayerJoinEvent;
 import cloud.terium.teriumapi.events.player.CloudPlayerQuitEvent;
 import cloud.terium.teriumapi.events.player.CloudPlayerServiceConnectedEvent;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
 
 public class PlayerConnectionListener implements Listener {
 
@@ -27,9 +29,9 @@ public class PlayerConnectionListener implements Listener {
      * if the "logPlayerConnections" option is enabled in the config.json configuration file, the cloud console will print a notification when they disconect from the network
      */
     @Subscribe
-    public void onPlayerDisconnect(CloudPlayerQuitEvent event) {
+    public void onPlayerDisconnect(DisconnectEvent event) {
         if (NotificationVelocityStartup.getInstance().getConfigManager().getJson().get("logPlayerConnections").getAsBoolean()) {
-            TeriumAPI.getTeriumAPI().getProvider().getConsoleProvider().sendConsole(String.format("%s (%s) diconnected from the network", event.getCloudPlayer().getUsername(), event.getCloudPlayer().getUniqueId()), LogType.INFO);
+            TeriumAPI.getTeriumAPI().getProvider().getConsoleProvider().sendConsole(String.format("%s (%s) diconnected from the network", event.getPlayer().getUsername(), event.getPlayer().getUniqueId()), LogType.INFO);
         }
     }
 
@@ -38,12 +40,11 @@ public class PlayerConnectionListener implements Listener {
      * if the "logPlayerConnections" option is enabled in the config.json configuration file, the cloud console will print a notification when they switch to a new service
      */
     @Subscribe
-    public void onPlayerJoin(CloudPlayerServiceConnectedEvent event) {
+    public void onPlayerJoin(ServerConnectedEvent event) {
         if (NotificationVelocityStartup.getInstance().getConfigManager().getJson().get("logPlayerConnections").getAsBoolean()) {
-            TeriumAPI.getTeriumAPI().getProvider().getConsoleProvider().sendConsole(String.format("%s (%s) switched to %s", event.getCloudPlayer().getUsername(), event.getCloudPlayer().getUniqueId(), event.getCloudService().getServiceName()), LogType.INFO);
+            event.getPreviousServer().ifPresent(service -> {
+                TeriumAPI.getTeriumAPI().getProvider().getConsoleProvider().sendConsole(String.format("%s (%s) switched to %s", event.getPlayer().getUsername(), event.getPlayer().getUniqueId(), service.getServerInfo().getName()), LogType.INFO);
+            });
         }
     }
-
-
-
 }
