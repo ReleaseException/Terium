@@ -2,7 +2,6 @@ package cloud.terium.module.permission.permission.group;
 
 import cloud.terium.module.permission.utils.ApplicationType;
 import cloud.terium.teriumapi.TeriumAPI;
-import com.google.gson.JsonObject;
 import lombok.Getter;
 
 import java.io.File;
@@ -23,10 +22,16 @@ public class PermissionGroupManager {
     }
 
     public void registerGroup(PermissionGroup permissionGroup) {
-        if(loadedGroups.containsKey(permissionGroup.name()))
+        if (loadedGroups.containsKey(permissionGroup.name()))
             loadedGroups.remove(permissionGroup);
 
         loadedGroups.put(permissionGroup.name(), permissionGroup);
+    }
+
+    public void loadIcludedGroupPermissions() {
+        loadedGroups.values().forEach(permissionGroup -> permissionGroup.includedGroups().forEach(name -> {
+            getGroupByName(name).ifPresent(permissionGroup1 -> permissionGroup1.permissions().forEach(permissionGroup::addPermission));
+        }));
     }
 
     public PermissionGroup createPermissionGroup(String name, String prefix, String suffix, String chatColor,

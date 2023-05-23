@@ -6,7 +6,6 @@ import cloud.terium.module.permission.velocity.PermissionVelocityStartup;
 import cloud.terium.teriumapi.TeriumAPI;
 import cloud.terium.teriumapi.pipe.packets.PacketPlayOutSendHashMap;
 import cloud.terium.teriumapi.pipe.packets.PacketPlayOutSendString;
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -19,15 +18,13 @@ import com.velocitypowered.api.command.CommandSource;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.minimessage.Context;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-import javax.print.DocFlavor;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class CloudPermissionsCommand {
 
@@ -68,6 +65,8 @@ public class CloudPermissionsCommand {
                                                         .executes(this::removePermission))))))
                 .then(LiteralArgumentBuilder.<CommandSource>literal("groups")
                         .executes(this::groupList))
+                .then(LiteralArgumentBuilder.<CommandSource>literal("reload")
+                        .executes(this::reload))
                 .build();
 
         return new BrigadierCommand(commandNode);
@@ -128,7 +127,7 @@ public class CloudPermissionsCommand {
             hashMap.put("group_name", permissionGroup.name());
 
             context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("<green>Successfully set group of <#06bdf8>" + permissionUser.getName() + " <green>to <#06bdf8>" + permissionGroup.name() + "<gray>."));
-            PermissionVelocityStartup.getInstance().getProxyServer().getPlayer(context.getArgument("user", String.class)).ifPresent(player -> player.disconnect(Component.text("New Rank: " + permissionGroup.name())));
+            PermissionVelocityStartup.getInstance().getProxyServer().getPlayer(context.getArgument("user", String.class)).ifPresent(player -> player.sendMessage(MiniMessage.miniMessage().deserialize(TeriumPermissionModule.getInstance().getConfigManager().getJson().get("new_rank.message").getAsString().replace("%rank%", permissionGroup.name()))));
             PermissionVelocityStartup.getInstance().getProxyServer().getScheduler().buildTask(PermissionVelocityStartup.getInstance(), () -> TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutSendHashMap(hashMap))).delay(1, TimeUnit.SECONDS).schedule();
         }, () -> context.getSource().sendMessage(Component.text("§cThis group isn't registered."))), () -> context.getSource().sendMessage(Component.text("§cThis user isn't registered.")));
 
@@ -137,13 +136,7 @@ public class CloudPermissionsCommand {
 
     private int groupList(CommandContext<CommandSource> context) {
         context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("All <#06bdf8>loaded <white>permission groups:"));
-        TeriumPermissionModule.getInstance().getPermissionGroupManager().getLoadedGroups().values().stream().sorted(Comparator.comparing(PermissionGroup::name)).forEach(permissionGroup -> {
-            Component component = MiniMessage.miniMessage().deserialize("  <gray>● <#06bdf8>" + permissionGroup.name());
-            component.clickEvent(ClickEvent.runCommand("/cperms group " + permissionGroup.name()));
-            component.hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("§fClick to get more information.")));
-
-            context.getSource().sendMessage(component);
-        });
+        TeriumPermissionModule.getInstance().getPermissionGroupManager().getLoadedGroups().values().stream().sorted(Comparator.comparing(PermissionGroup::name)).forEach(permissionGroup -> context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("  <gray>● <#06bdf8>" + permissionGroup.name()).hoverEvent(HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text("§fClick to get more information."))).clickEvent(ClickEvent.runCommand("/cperms group " + permissionGroup.name()))));
 
         return 1;
     }
@@ -164,8 +157,8 @@ public class CloudPermissionsCommand {
     private int groupInfo(CommandContext<CommandSource> context) {
         TeriumPermissionModule.getInstance().getPermissionGroupManager().getGroupByName(context.getArgument("group", String.class)).ifPresentOrElse(permissionGroup -> {
             context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("Information about <#06bdf8>" + permissionGroup.name() + "<white>:"));
-            context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("  <gray>● <white>Prefix: " + permissionGroup.prefix()));
-            context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("  <gray>● <white>Suffix: " + permissionGroup.suffix()));
+            context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("  <gray>● <white>Prefix: ").append(LegacyComponentSerializer.legacyAmpersand().deserialize(permissionGroup.prefix())));
+            context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("  <gray>● <white>Suffix: ").append(LegacyComponentSerializer.legacyAmpersand().deserialize(permissionGroup.suffix())));
             context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("  <gray>● <white>Chat color: " + permissionGroup.chatColor()));
             context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("  <gray>● <white>Standard: " + (permissionGroup.standard() ? "<green>Yes" : "<red>No")));
             if (permissionGroup.permissions().isEmpty()) {
@@ -196,7 +189,7 @@ public class CloudPermissionsCommand {
 
     private int removePermission(CommandContext<CommandSource> context) {
         TeriumPermissionModule.getInstance().getPermissionGroupManager().getGroupByName(context.getArgument("group", String.class)).ifPresentOrElse(permissionGroup -> {
-            if(permissionGroup.permissions().contains(context.getArgument("permission", String.class))) {
+            if (permissionGroup.permissions().contains(context.getArgument("permission", String.class))) {
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("packet_type", "remove_permission");
                 hashMap.put("group_name", context.getArgument("group", String.class));
@@ -208,6 +201,12 @@ public class CloudPermissionsCommand {
             }
         }, () -> context.getSource().sendMessage(Component.text("§cThis group isn't registered.")));
 
+        return 1;
+    }
+
+    private int reload(CommandContext<CommandSource> context) {
+        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutSendString("reload_system"));
+        context.getSource().sendMessage(MiniMessage.miniMessage().deserialize("<green>Successfully reloaded <#06bdf8>permission-module<gray>."));
         return 1;
     }
 }
