@@ -1,13 +1,13 @@
 package cloud.terium.teriumapi.service.impl;
 
-import cloud.terium.networking.packet.service.PacketPlayOutServiceShutdown;
-import cloud.terium.networking.packet.service.PacketPlayOutUpdateService;
+import cloud.terium.common.networking.packet.service.PacketPlayOutServiceShutdown;
+import cloud.terium.common.networking.packet.service.PacketPlayOutUpdateService;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.ICloudService;
-import cloud.terium.teriumapi.service.ServiceState;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.services.ICloudService;
+import cloud.terium.common.services.ServiceState;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +111,7 @@ public class CloudService implements ICloudService {
 
     @Override
     public void update() {
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutUpdateService(getServiceName(), getOnlinePlayers(), getUsedMemory(), getServiceState(), isLocked(), getPropertyMap()));
+        TeriumAPI.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutUpdateService(getServiceName(), getOnlinePlayers(), getUsedMemory(), getServiceState(), isLocked(), getPropertyMap()));
     }
 
     @Override
@@ -166,6 +166,6 @@ public class CloudService implements ICloudService {
 
     @Override
     public void shutdown() {
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceShutdown(getServiceName(), getServiceNode().getName()));
+        TeriumAPI.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceShutdown(getServiceName(), getServiceNode().getName()));
     }
 }

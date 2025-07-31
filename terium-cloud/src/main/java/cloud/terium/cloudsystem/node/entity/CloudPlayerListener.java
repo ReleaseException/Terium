@@ -1,6 +1,6 @@
 package cloud.terium.cloudsystem.node.entity;
 
-import cloud.terium.teriumapi.event.Listener;
+import cloud.terium.common.event.Listener;
 import cloud.terium.teriumapi.event.Subscribe;
 import cloud.terium.teriumapi.events.player.CloudPlayerUpdateEvent;
 

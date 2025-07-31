@@ -1,7 +1,7 @@
 package cloud.terium.cloudsystem.node.entity;
 
-import cloud.terium.teriumapi.entity.ICloudPlayer;
-import cloud.terium.teriumapi.entity.ICloudPlayerProvider;
+import cloud.terium.common.player.ICloudPlayer;
+import cloud.terium.common.player.ICloudPlayerProvider;
 
 import java.util.*;
 
