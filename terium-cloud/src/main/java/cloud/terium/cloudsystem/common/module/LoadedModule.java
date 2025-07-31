@@ -1,7 +1,7 @@
 package cloud.terium.cloudsystem.common.module;
 
-import cloud.terium.teriumapi.module.ILoadedModule;
-import cloud.terium.teriumapi.module.ModuleType;
+import cloud.terium.common.module.ILoadedModule;
+import cloud.terium.common.module.ModuleType;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

@@ -2,9 +2,9 @@ package cloud.terium.cloudsystem.node.template;
 
 import cloud.terium.cloudsystem.node.utils.Logger;
 import cloud.terium.cloudsystem.common.template.Template;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.template.ITemplate;
-import cloud.terium.teriumapi.template.ITemplateProvider;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.templates.ITemplate;
+import cloud.terium.common.templates.ITemplateProvider;
 
 import java.io.File;
 import java.nio.file.Path;

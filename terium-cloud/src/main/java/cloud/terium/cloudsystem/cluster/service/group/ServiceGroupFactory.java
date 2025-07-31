@@ -1,8 +1,8 @@
 package cloud.terium.cloudsystem.cluster.service.group;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroupFactory;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.services.groups.ICloudServiceGroupFactory;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 

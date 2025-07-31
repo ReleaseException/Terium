@@ -3,10 +3,10 @@ package cloud.terium.cloudsystem.cluster.template;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
 import cloud.terium.cloudsystem.common.template.Template;
-import cloud.terium.networking.packet.template.PacketPlayOutTemplateAdd;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.template.ITemplate;
-import cloud.terium.teriumapi.template.ITemplateFactory;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.networking.packet.template.PacketPlayOutTemplateAdd;
+import cloud.terium.common.templates.ITemplate;
+import cloud.terium.common.templates.ITemplateFactory;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 

@@ -1,6 +1,7 @@
 package cloud.terium.cloudsystem.common.screen;
 
-import cloud.terium.teriumapi.service.ICloudService;
+
+import cloud.terium.common.services.ICloudService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

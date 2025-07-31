@@ -3,9 +3,9 @@ package cloud.terium.cloudsystem.node.template;
 import cloud.terium.cloudsystem.node.NodeStartup;
 import cloud.terium.cloudsystem.node.utils.Logger;
 import cloud.terium.cloudsystem.common.template.Template;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.template.ITemplate;
-import cloud.terium.teriumapi.template.ITemplateFactory;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.templates.ITemplate;
+import cloud.terium.common.templates.ITemplateFactory;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 

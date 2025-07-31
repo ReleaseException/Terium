@@ -3,7 +3,7 @@ package cloud.terium.cloudsystem.cluster.utils;
 import cloud.terium.cloudsystem.TeriumCloud;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.common.utils.logger.LoggerColors;
-import cloud.terium.teriumapi.console.LogType;
+import cloud.terium.common.command.LogType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

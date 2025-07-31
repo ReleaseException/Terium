@@ -1,10 +1,11 @@
 package cloud.terium.cloudsystem.node.service.group;
 
 import cloud.terium.cloudsystem.node.NodeStartup;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.services.ServiceType;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.services.groups.ICloudServiceGroupProvider;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.service.ServiceType;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroupProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class ServiceGroupProvider implements ICloudServiceGroupProvider {
 
     @Override
     public int getOnlineServicesFromServiceGroup(String groupName) {
-        return TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServicesByGroupName(groupName).size();
+        return TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServicesByGroupName(groupName).size();
     }
 
     @Override

@@ -1,11 +1,13 @@
 package cloud.terium.plugin.impl.module;
 
-import cloud.terium.networking.packet.module.PacketPlayOutLoadModule;
-import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.module.ILoadedModule;
-import cloud.terium.teriumapi.module.IModuleProvider;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.module.ILoadedModule;
+import cloud.terium.common.module.IModuleProvider;
+import cloud.terium.common.networking.packet.module.PacketPlayOutLoadModule;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 public class ModuleProvider implements IModuleProvider {
 
@@ -17,7 +19,7 @@ public class ModuleProvider implements IModuleProvider {
 
     @Override
     public void loadModule(String path) {
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutLoadModule(path));
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutLoadModule(path));
     }
 
     @Override

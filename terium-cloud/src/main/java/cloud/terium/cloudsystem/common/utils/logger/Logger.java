@@ -1,6 +1,7 @@
 package cloud.terium.cloudsystem.common.utils.logger;
 
-import cloud.terium.teriumapi.console.LogType;
+
+import cloud.terium.common.command.LogType;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

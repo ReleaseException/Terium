@@ -1,6 +1,6 @@
 package cloud.terium.teriumapi.module.annotation;
 
-import cloud.terium.teriumapi.module.ModuleType;
+import cloud.terium.common.module.ModuleType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

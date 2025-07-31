@@ -1,11 +1,11 @@
 package cloud.terium.cloudsystem.node.module;
 
 import cloud.terium.cloudsystem.node.utils.Logger;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.module.ILoadedModule;
-import cloud.terium.teriumapi.module.IModule;
-import cloud.terium.teriumapi.module.IModuleProvider;
-import cloud.terium.teriumapi.module.ModuleType;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.module.ILoadedModule;
+import cloud.terium.common.module.IModule;
+import cloud.terium.common.module.IModuleProvider;
+import cloud.terium.common.module.ModuleType;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.SneakyThrows;

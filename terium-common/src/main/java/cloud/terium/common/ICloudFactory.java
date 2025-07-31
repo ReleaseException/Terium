@@ -1,9 +1,9 @@
-package cloud.terium.teriumapi.api;
+package cloud.terium.common;
 
-import cloud.terium.teriumapi.console.command.ICommandFactory;
-import cloud.terium.teriumapi.service.ICloudServiceFactory;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroupFactory;
-import cloud.terium.teriumapi.template.ITemplateFactory;
+import cloud.terium.common.command.ICommandFactory;
+import cloud.terium.common.services.ICloudServiceFactory;
+import cloud.terium.common.services.groups.ICloudServiceGroupFactory;
+import cloud.terium.common.templates.ITemplateFactory;
 
 public abstract class ICloudFactory {
 

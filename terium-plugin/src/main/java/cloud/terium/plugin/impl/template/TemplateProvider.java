@@ -1,7 +1,7 @@
 package cloud.terium.plugin.impl.template;
 
-import cloud.terium.teriumapi.template.ITemplate;
-import cloud.terium.teriumapi.template.ITemplateProvider;
+import cloud.terium.common.templates.ITemplate;
+import cloud.terium.common.templates.ITemplateProvider;
 
 import java.util.ArrayList;
 import java.util.List;
