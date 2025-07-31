@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.group;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.group.PacketPlayOutGroupUpdate;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.group.PacketPlayOutGroupUpdate;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 @Getter
@@ -21,6 +22,6 @@ public class GroupUpdateEvent extends Event {
                             int maximalServices) {
         this.serviceGroup = serviceGroup;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupUpdate(serviceGroup, node, version, maximumPlayers, maintenance, isStatic, memory, minimalServices, maximalServices));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupUpdate(serviceGroup, node, version, maximumPlayers, maintenance, isStatic, memory, minimalServices, maximalServices));
     }
 }

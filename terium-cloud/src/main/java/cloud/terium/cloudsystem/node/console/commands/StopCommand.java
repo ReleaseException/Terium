@@ -1,7 +1,7 @@
 package cloud.terium.cloudsystem.node.console.commands;
 
 import cloud.terium.cloudsystem.node.NodeStartup;
-import cloud.terium.teriumapi.console.command.Command;
+import cloud.terium.common.command.Command;
 
 public class StopCommand extends Command {
 

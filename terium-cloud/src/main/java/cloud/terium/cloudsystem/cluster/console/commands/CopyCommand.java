@@ -1,11 +1,12 @@
 package cloud.terium.cloudsystem.cluster.console.commands;
 
 import cloud.terium.cloudsystem.cluster.utils.Logger;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.services.ICloudService;
+import cloud.terium.common.templates.ITemplate;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.console.command.Command;
-import cloud.terium.teriumapi.service.ICloudService;
-import cloud.terium.teriumapi.template.ITemplate;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -21,7 +22,7 @@ public class CopyCommand extends Command {
     @Override
     public void execute(String[] args) {
         if(args.length == 2) {
-            TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(args[0]).ifPresentOrElse(cloudService -> TeriumAPI.getTeriumAPI().getProvider().getTemplateProvider().getTemplateByName(args[1]).ifPresentOrElse(template -> {
+            TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(args[0]).ifPresentOrElse(cloudService -> TeriumCommon.getTeriumFramework().getProvider().getTemplateProvider().getTemplateByName(args[1]).ifPresentOrElse(template -> {
                 try {
                     Logger.log("Trying to copy '§b" + cloudService.getServiceName() + "§f' into template '§b" + template.getName() + "§f'...", LogType.INFO);
                     FileUtils.copyDirectory(new File((cloudService.getServiceGroup().isStatic() ? "static/" : "servers/") + cloudService.getServiceName()), template.getPath().toFile());
@@ -38,10 +39,10 @@ public class CopyCommand extends Command {
     @Override
     public List<String> tabComplete(String[] args) {
         if (args.length == 1)
-            return TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getAllServices().stream().map(ICloudService::getServiceName).toList();
+            return TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getAllServices().stream().map(ICloudService::getServiceName).toList();
 
         if (args.length == 2)
-            return TeriumAPI.getTeriumAPI().getProvider().getTemplateProvider().getAllTemplates().stream().map(ITemplate::getName).toList();
+            return TeriumCommon.getTeriumFramework().getProvider().getTemplateProvider().getAllTemplates().stream().map(ITemplate::getName).toList();
 
         return super.tabComplete(args);
     }

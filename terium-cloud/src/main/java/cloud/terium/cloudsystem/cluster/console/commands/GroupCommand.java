@@ -3,12 +3,11 @@ package cloud.terium.cloudsystem.cluster.console.commands;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
 import cloud.terium.cloudsystem.common.utils.version.ServerVersions;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.console.command.Command;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.ServiceType;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.services.ServiceType;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 
 import java.util.Arrays;
 import java.util.List;
