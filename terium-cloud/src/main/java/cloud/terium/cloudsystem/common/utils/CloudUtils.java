@@ -1,7 +1,7 @@
 package cloud.terium.cloudsystem.common.utils;
 
 import cloud.terium.cloudsystem.common.utils.logger.Logger;
-import cloud.terium.teriumapi.entity.ICloudPlayer;
+import cloud.terium.common.player.ICloudPlayer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;

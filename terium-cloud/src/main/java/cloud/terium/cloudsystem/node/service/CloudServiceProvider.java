@@ -2,12 +2,11 @@ package cloud.terium.cloudsystem.node.service;
 
 import cloud.terium.cloudsystem.TeriumCloud;
 import cloud.terium.cloudsystem.node.NodeStartup;
-import cloud.terium.networking.packet.node.PacketPlayOutNodeUpdate;
-import cloud.terium.teriumapi.service.ICloudService;
-import cloud.terium.teriumapi.service.ICloudServiceProvider;
-import cloud.terium.teriumapi.service.ServiceState;
-import cloud.terium.teriumapi.service.ServiceType;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
+import cloud.terium.common.services.ICloudService;
+import cloud.terium.common.services.ServiceState;
+import cloud.terium.common.services.ServiceType;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.services.ICloudServiceProvider;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

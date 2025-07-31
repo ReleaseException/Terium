@@ -1,9 +1,9 @@
 package cloud.terium.cloudsystem.cluster.service;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.teriumapi.service.ICloudServiceFactory;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.services.ICloudServiceFactory;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 
 import java.util.HashMap;
 import java.util.List;

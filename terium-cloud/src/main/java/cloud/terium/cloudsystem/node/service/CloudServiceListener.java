@@ -3,10 +3,10 @@ package cloud.terium.cloudsystem.node.service;
 import cloud.terium.cloudsystem.common.event.events.service.*;
 import cloud.terium.cloudsystem.node.NodeStartup;
 import cloud.terium.cloudsystem.node.utils.Logger;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.event.Listener;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.services.ICloudService;
+import cloud.terium.common.event.Listener;
 import cloud.terium.teriumapi.event.Subscribe;
-import cloud.terium.teriumapi.service.ICloudService;
 import cloud.terium.teriumapi.service.impl.CloudService;
 
 public class CloudServiceListener implements Listener {

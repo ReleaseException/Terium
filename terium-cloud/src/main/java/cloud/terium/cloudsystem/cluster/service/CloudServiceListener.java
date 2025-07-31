@@ -3,11 +3,10 @@ package cloud.terium.cloudsystem.cluster.service;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
 import cloud.terium.cloudsystem.common.event.events.service.*;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.event.Listener;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.event.Listener;
+import cloud.terium.common.services.ICloudService;
 import cloud.terium.teriumapi.event.Subscribe;
-import cloud.terium.teriumapi.events.service.CloudServiceStartingEvent;
-import cloud.terium.teriumapi.service.ICloudService;
 import cloud.terium.teriumapi.service.impl.CloudService;
 
 public class CloudServiceListener implements Listener {
