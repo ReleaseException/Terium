@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.console;
+package cloud.terium.common.command;
 
 import java.io.Serializable;
 

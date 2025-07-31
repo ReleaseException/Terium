@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.template;
+package cloud.terium.common.templates;
 
 import java.util.List;
 import java.util.Optional;

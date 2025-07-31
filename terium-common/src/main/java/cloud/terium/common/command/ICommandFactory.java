@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.console.command;
+package cloud.terium.common.command;
 
 public interface ICommandFactory {
 

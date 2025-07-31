@@ -3,10 +3,11 @@ package cloud.terium.cloudsystem.cluster.console.commands;
 import cloud.terium.cloudsystem.TeriumCloud;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.templates.ITemplate;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.console.command.Command;
-import cloud.terium.teriumapi.template.ITemplate;
 
 import java.net.InetSocketAddress;
 import java.util.Arrays;
@@ -29,7 +30,7 @@ public class InfoCommand extends Command {
                     return;
                 }
                 case "servers" -> {
-                    TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getAllServices().forEach(cloudService -> {
+                    TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getAllServices().forEach(cloudService -> {
                         Logger.log("§7● §b" + cloudService.getServiceName() + "§f:", LogType.INFO);
                         Logger.log("  §7● §fID: #" + cloudService.getServiceId() + " §7| §fState: " + cloudService.getServiceState(), LogType.INFO);
                         Logger.log("  §7● §fType: " + cloudService.getServiceType() + " §7| §fTemplates: " + cloudService.getTemplates().stream().map(ITemplate::getName).toList(), LogType.INFO);

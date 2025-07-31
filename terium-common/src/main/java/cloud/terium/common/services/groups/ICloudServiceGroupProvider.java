@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.service.group;
+package cloud.terium.common.services.groups;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.template;
+package cloud.terium.common.templates;
 
 public interface ITemplateFactory {
 

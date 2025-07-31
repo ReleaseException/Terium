@@ -1,10 +1,10 @@
-package cloud.terium.teriumapi.service.group;
+package cloud.terium.common.services.groups;
 
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.group.impl.DefaultLobbyGroup;
-import cloud.terium.teriumapi.service.group.impl.DefaultProxyGroup;
-import cloud.terium.teriumapi.service.group.impl.DefaultServerGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.services.impl.DefaultLobbyGroup;
+import cloud.terium.common.services.impl.DefaultProxyGroup;
+import cloud.terium.common.services.impl.DefaultServerGroup;
+import cloud.terium.common.templates.ITemplate;
 
 import java.util.List;
 

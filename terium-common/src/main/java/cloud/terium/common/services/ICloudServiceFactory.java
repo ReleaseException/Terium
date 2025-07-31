@@ -1,7 +1,7 @@
-package cloud.terium.teriumapi.service;
+package cloud.terium.common.services;
 
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 
 import java.util.HashMap;
 import java.util.List;

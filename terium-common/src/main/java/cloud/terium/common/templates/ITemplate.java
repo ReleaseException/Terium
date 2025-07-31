@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.template;
+package cloud.terium.common.templates;
 
 import java.io.Serializable;
 import java.nio.file.Path;

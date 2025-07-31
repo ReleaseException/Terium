@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.entity;
+package cloud.terium.common.player;
 
 import java.util.List;
 import java.util.Optional;

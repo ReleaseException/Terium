@@ -1,13 +1,12 @@
-package cloud.terium.teriumapi.service;
+package cloud.terium.common.services;
 
-import cloud.terium.networking.packet.service.PacketPlayOutCopyServiceToTemplate;
-import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.service.PacketPlayOutCopyServiceToTemplate;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 
 import java.io.Serializable;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
@@ -187,7 +186,7 @@ public interface ICloudService extends Serializable {
     }
 
     default void copy(ITemplate template) {
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCopyServiceToTemplate(getServiceName(), template.getPath().toString()));
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCopyServiceToTemplate(getServiceName(), template.getPath().toString()));
     }
 
     /**

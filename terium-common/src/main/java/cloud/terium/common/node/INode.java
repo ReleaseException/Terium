@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.node;
+package cloud.terium.common.node;
 
 import java.io.Serializable;
 import java.net.InetSocketAddress;

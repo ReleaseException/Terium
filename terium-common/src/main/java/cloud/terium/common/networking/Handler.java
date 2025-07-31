@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.pipe;
+package cloud.terium.common.networking;
 
 public interface Handler {
 

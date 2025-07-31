@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.node;
+package cloud.terium.common.node;
 
 import java.util.List;
 import java.util.Optional;

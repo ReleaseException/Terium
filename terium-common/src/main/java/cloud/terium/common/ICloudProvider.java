@@ -1,16 +1,16 @@
-package cloud.terium.teriumapi.api;
+package cloud.terium.common;
 
-import cloud.terium.teriumapi.console.IConsoleProvider;
-import cloud.terium.teriumapi.event.IEventProvider;
-import cloud.terium.teriumapi.module.IModuleProvider;
-import cloud.terium.teriumapi.pipe.IDefaultTeriumNetworking;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.node.INodeProvider;
-import cloud.terium.teriumapi.entity.ICloudPlayerProvider;
-import cloud.terium.teriumapi.service.ICloudService;
-import cloud.terium.teriumapi.service.ICloudServiceProvider;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroupProvider;
-import cloud.terium.teriumapi.template.ITemplateProvider;
+import cloud.terium.common.command.IConsoleProvider;
+import cloud.terium.common.event.IEventProvider;
+import cloud.terium.common.module.IModuleProvider;
+import cloud.terium.common.networking.IDefaultTeriumNetworking;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.node.INodeProvider;
+import cloud.terium.common.player.ICloudPlayerProvider;
+import cloud.terium.common.services.ICloudService;
+import cloud.terium.common.services.ICloudServiceProvider;
+import cloud.terium.common.services.groups.ICloudServiceGroupProvider;
+import cloud.terium.common.templates.ITemplateProvider;
 
 public abstract class ICloudProvider {
 
