@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.group;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.group.PacketPlayOutCreateServerGroup;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.group.PacketPlayOutCreateServerGroup;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 import java.util.List;
@@ -36,6 +37,6 @@ public class CreateServerGroupEvent extends Event {
         this.minimalServices = minimalServices;
         this.maximalServices = maximalServices;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCreateServerGroup(name, groupTitle, node, templates, version, maintenance, isStatic, maximumPlayers, memory, minimalServices, maximalServices));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCreateServerGroup(name, groupTitle, node, templates, version, maintenance, isStatic, maximumPlayers, memory, minimalServices, maximalServices));
     }
 }

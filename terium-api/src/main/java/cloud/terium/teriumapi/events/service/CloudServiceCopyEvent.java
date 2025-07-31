@@ -1,7 +1,7 @@
 package cloud.terium.teriumapi.events.service;
 
-import cloud.terium.teriumapi.event.Event;
-import cloud.terium.teriumapi.service.ICloudService;
+import cloud.terium.common.event.Event;
+import cloud.terium.common.services.ICloudService;
 import lombok.Getter;
 
 import java.nio.file.Path;
