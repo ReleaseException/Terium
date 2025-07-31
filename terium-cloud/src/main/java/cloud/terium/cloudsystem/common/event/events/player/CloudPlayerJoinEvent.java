@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.player;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.player.PacketPlayOutCloudPlayerJoin;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.networking.packet.player.PacketPlayOutCloudPlayerJoin;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -16,6 +17,6 @@ public class CloudPlayerJoinEvent extends Event {
     public CloudPlayerJoinEvent(UUID cloudPlayer) {
         this.cloudPlayer = cloudPlayer;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerJoin(cloudPlayer));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerJoin(cloudPlayer));
     }
 }

@@ -1,7 +1,7 @@
 package cloud.terium.teriumapi.entity.impl;
 
-import cloud.terium.teriumapi.entity.ICloudPlayer;
-import cloud.terium.teriumapi.service.ICloudService;
+import cloud.terium.common.player.ICloudPlayer;
+import cloud.terium.common.services.ICloudService;
 import lombok.AllArgsConstructor;
 
 import java.net.InetSocketAddress;
