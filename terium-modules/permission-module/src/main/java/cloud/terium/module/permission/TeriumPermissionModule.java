@@ -9,15 +9,11 @@ import cloud.terium.module.permission.permission.user.PermissionUserManager;
 import cloud.terium.module.permission.permission.user.UserFileManager;
 import cloud.terium.module.permission.utils.ApplicationType;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.module.IModule;
-import cloud.terium.teriumapi.module.ModuleType;
 import cloud.terium.teriumapi.module.annotation.Module;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
 @Module(name = "permission", author = "Jxnnik(ByRaudy)", version = "1.5-OXYGEN", description = "", reloadable = true, moduleType = ModuleType.ALL)

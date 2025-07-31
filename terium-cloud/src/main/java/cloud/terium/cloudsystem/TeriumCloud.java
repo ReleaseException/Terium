@@ -12,6 +12,7 @@ import lombok.SneakyThrows;
 @Setter
 public class TeriumCloud {
 
+    @Getter
     private static TeriumCloud terium;
     private final CloudUtils cloudUtils;
     private final NetworkHandlerProvider networkHandlerProvider;
@@ -31,7 +32,4 @@ public class TeriumCloud {
         else new ClusterStartup();
     }
 
-    public static TeriumCloud getTerium() {
-        return terium;
-    }
 }

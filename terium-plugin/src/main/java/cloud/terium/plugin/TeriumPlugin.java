@@ -1,7 +1,9 @@
 package cloud.terium.plugin;
 
-import cloud.terium.networking.packet.PacketPlayOutCheckVersion;
-import cloud.terium.networking.packet.service.PacketPlayOutSuccessfullyServiceStarted;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.PacketPlayOutCheckVersion;
+import cloud.terium.common.networking.packet.service.PacketPlayOutSuccessfullyServiceStarted;
+import cloud.terium.common.services.*;
 import cloud.terium.plugin.impl.config.ConfigManager;
 import cloud.terium.plugin.impl.console.CommandFactory;
 import cloud.terium.plugin.impl.console.ConsoleProvider;
@@ -17,21 +19,20 @@ import cloud.terium.plugin.impl.service.group.ServiceGroupProvider;
 import cloud.terium.plugin.impl.template.TemplateFactory;
 import cloud.terium.plugin.impl.template.TemplateProvider;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.api.ICloudFactory;
-import cloud.terium.teriumapi.api.ICloudProvider;
-import cloud.terium.teriumapi.console.IConsoleProvider;
-import cloud.terium.teriumapi.console.command.ICommandFactory;
-import cloud.terium.teriumapi.event.IEventProvider;
-import cloud.terium.teriumapi.module.IModuleProvider;
-import cloud.terium.teriumapi.pipe.IDefaultTeriumNetworking;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.node.INodeProvider;
-import cloud.terium.teriumapi.entity.ICloudPlayerProvider;
-import cloud.terium.teriumapi.service.*;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroupFactory;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroupProvider;
-import cloud.terium.teriumapi.template.ITemplateFactory;
-import cloud.terium.teriumapi.template.ITemplateProvider;
+import cloud.terium.common.ICloudFactory;
+import cloud.terium.common.ICloudProvider;
+import cloud.terium.common.command.IConsoleProvider;
+import cloud.terium.common.command.ICommandFactory;
+import cloud.terium.common.event.IEventProvider;
+import cloud.terium.common.module.IModuleProvider;
+import cloud.terium.common.networking.IDefaultTeriumNetworking;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.node.INodeProvider;
+import cloud.terium.common.player.ICloudPlayerProvider;
+import cloud.terium.common.services.groups.ICloudServiceGroupFactory;
+import cloud.terium.common.services.groups.ICloudServiceGroupProvider;
+import cloud.terium.common.templates.ITemplateFactory;
+import cloud.terium.common.templates.ITemplateProvider;
 import com.velocitypowered.api.proxy.Player;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -44,6 +45,7 @@ import java.util.TimerTask;
 @Getter
 public final class TeriumPlugin extends TeriumAPI {
 
+    @Getter
     private static TeriumPlugin instance;
     private final ConfigManager configManager;
     // Service
@@ -96,8 +98,8 @@ public final class TeriumPlugin extends TeriumAPI {
             public void run() {
                 teriumNetworking.sendPacket(new PacketPlayOutSuccessfullyServiceStarted(getProvider().getThisService().getServiceName(), getProvider().getThisNode().getName()));
                 teriumNetworking.sendPacket(new PacketPlayOutCheckVersion(getProvider().getVersion()));
-                getTeriumAPI().getProvider().getThisService().setServiceState(ServiceState.ONLINE);
-                getTeriumAPI().getProvider().getThisService().update();
+                TeriumCommon.getTeriumFramework().getProvider().getThisService().setServiceState(ServiceState.ONLINE);
+                TeriumCommon.getTeriumFramework().getProvider().getThisService().update();
 
                 new Timer().schedule(new TimerTask() {
                     @Override
@@ -108,10 +110,6 @@ public final class TeriumPlugin extends TeriumAPI {
                 }, 0, 2000);
             }
         }, 1500);
-    }
-
-    public static TeriumPlugin getInstance() {
-        return instance;
     }
 
     @Override
@@ -209,7 +207,7 @@ public final class TeriumPlugin extends TeriumAPI {
     }
 
     public @NotNull Optional<ICloudService> getFallback(final Player player) {
-        return TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getAllServices().stream()
+        return TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getAllServices().stream()
                 .filter(service -> service.getServiceState().equals(ServiceState.ONLINE))
                 .filter(service -> !service.getServiceGroup().getServiceType().equals(ServiceType.Proxy))
                 .filter(service -> service.getServiceGroup().getServiceType().equals(ServiceType.Lobby))

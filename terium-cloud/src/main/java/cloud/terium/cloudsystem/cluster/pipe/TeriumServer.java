@@ -17,25 +17,26 @@ import cloud.terium.cloudsystem.common.event.events.player.CloudPlayerQuitEvent;
 import cloud.terium.cloudsystem.common.event.events.service.*;
 import cloud.terium.cloudsystem.common.event.events.service.template.TemplateCreateEvent;
 import cloud.terium.cloudsystem.common.event.events.service.template.TemplateDeleteEvent;
-import cloud.terium.networking.packet.PacketPlayOutCheckVersion;
-import cloud.terium.networking.packet.console.PacketPlayOutRegisterCommand;
-import cloud.terium.networking.packet.console.PacketPlayOutSendConsole;
-import cloud.terium.networking.packet.group.*;
-import cloud.terium.networking.packet.module.PacketPlayOutAddLoadedModule;
-import cloud.terium.networking.packet.node.*;
-import cloud.terium.networking.packet.player.*;
-import cloud.terium.networking.packet.service.*;
-import cloud.terium.networking.packet.template.PacketPlayOutTemplateAdd;
-import cloud.terium.networking.packet.template.PacketPlayOutTemplateDelete;
-import cloud.terium.teriumapi.console.LogType;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.networking.Packet;
+import cloud.terium.common.networking.packet.PacketPlayOutCheckVersion;
+import cloud.terium.common.networking.packet.console.PacketPlayOutRegisterCommand;
+import cloud.terium.common.networking.packet.console.PacketPlayOutSendConsole;
+import cloud.terium.common.networking.packet.group.*;
+import cloud.terium.common.networking.packet.module.PacketPlayOutAddLoadedModule;
+import cloud.terium.common.networking.packet.node.*;
+import cloud.terium.common.networking.packet.player.*;
+import cloud.terium.common.networking.packet.service.*;
+import cloud.terium.common.networking.packet.template.PacketPlayOutTemplateAdd;
+import cloud.terium.common.networking.packet.template.PacketPlayOutTemplateCreate;
+import cloud.terium.common.networking.packet.template.PacketPlayOutTemplateDelete;
+import cloud.terium.common.services.ServiceState;
+import cloud.terium.common.templates.ITemplate;
 import cloud.terium.teriumapi.events.player.CloudPlayerUpdateEvent;
-import cloud.terium.teriumapi.pipe.Packet;
 import cloud.terium.teriumapi.pipe.packets.PacketPlayOutSendHashMap;
 import cloud.terium.teriumapi.pipe.packets.PacketPlayOutSendInteger;
 import cloud.terium.teriumapi.pipe.packets.PacketPlayOutSendLong;
 import cloud.terium.teriumapi.pipe.packets.PacketPlayOutSendString;
-import cloud.terium.teriumapi.service.ServiceState;
-import cloud.terium.teriumapi.template.ITemplate;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.Epoll;
@@ -215,7 +216,7 @@ public class TeriumServer {
                                                     ClusterStartup.getCluster().getEventProvider().callEvent(new ReloadGroupsEvent());
 
                                                 // template events
-                                                if (packet instanceof cloud.terium.networking.packet.template.PacketPlayOutTemplateCreate newPacket)
+                                                if (packet instanceof PacketPlayOutTemplateCreate newPacket)
                                                     ClusterStartup.getCluster().getEventProvider().callEvent(new TemplateCreateEvent(newPacket.name()));
                                                 if (packet instanceof PacketPlayOutTemplateDelete newPacket)
                                                     ClusterStartup.getCluster().getEventProvider().callEvent(new TemplateDeleteEvent(newPacket.template()));
@@ -223,8 +224,8 @@ public class TeriumServer {
                                                 // util
                                                 if (packet instanceof PacketPlayOutCheckVersion newPacket && !TeriumCloud.getTerium().getCloudUtils().isVersionGotChecked()) {
                                                     if (!newPacket.version().equals(ClusterStartup.getCluster().getProvider().getVersion()) && ClusterStartup.getCluster().getCloudConfig().checkUpdate()) {
-                                                        Logger.log("You are running the §cold §fversion of terium-cloud!", LogType.WARINING);
-                                                        Logger.log("Download the new version here: https://terium.cloud/download", LogType.WARINING);
+                                                        Logger.log("You are running the §cold §fversion of terium-cloud!", LogType.WARNING);
+                                                        Logger.log("Download the new version here: https://terium.cloud/download", LogType.WARNING);
                                                     }
 
                                                     TeriumCloud.getTerium().getCloudUtils().setVersionGotChecked(true);

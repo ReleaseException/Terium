@@ -3,12 +3,11 @@ package cloud.terium.cloudsystem.cluster.pipe;
 import cloud.terium.cloudsystem.TeriumCloud;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.pipe.Handler;
-import cloud.terium.teriumapi.pipe.IDefaultTeriumNetworking;
-import cloud.terium.teriumapi.pipe.Packet;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.networking.Packet;
+import cloud.terium.common.networking.Handler;
+import cloud.terium.common.networking.IDefaultTeriumNetworking;
 import io.netty.channel.Channel;
-import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.LinkedList;
 import java.util.List;

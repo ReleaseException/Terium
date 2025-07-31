@@ -1,21 +1,29 @@
 package cloud.terium.plugin.impl.pipe;
 
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.Handler;
+import cloud.terium.common.networking.IDefaultTeriumNetworking;
+import cloud.terium.common.networking.Packet;
+import cloud.terium.common.networking.packet.PacketPlayOutReloadConfig;
+import cloud.terium.common.networking.packet.group.*;
+import cloud.terium.common.networking.packet.module.PacketPlayOutAddLoadedModule;
+import cloud.terium.common.networking.packet.node.PacketPlayOutNodeAdd;
+import cloud.terium.common.networking.packet.node.PacketPlayOutNodeShutdowned;
+import cloud.terium.common.networking.packet.node.PacketPlayOutNodeStarted;
+import cloud.terium.common.networking.packet.player.*;
+import cloud.terium.common.networking.packet.service.*;
+import cloud.terium.common.networking.packet.template.PacketPlayOutTemplateAdd;
+import cloud.terium.common.services.ServiceType;
+import cloud.terium.common.services.impl.DefaultLobbyGroup;
+import cloud.terium.common.services.impl.DefaultProxyGroup;
+import cloud.terium.common.services.impl.DefaultServerGroup;
+import cloud.terium.common.templates.ITemplate;
 import cloud.terium.networking.client.TeriumClient;
-import cloud.terium.networking.packet.PacketPlayOutReloadConfig;
-import cloud.terium.networking.packet.group.*;
-import cloud.terium.networking.packet.module.PacketPlayOutAddLoadedModule;
-import cloud.terium.networking.packet.node.PacketPlayOutNodeAdd;
-import cloud.terium.networking.packet.node.PacketPlayOutNodeShutdowned;
-import cloud.terium.networking.packet.node.PacketPlayOutNodeStarted;
-import cloud.terium.networking.packet.player.*;
-import cloud.terium.networking.packet.service.*;
-import cloud.terium.networking.packet.template.PacketPlayOutTemplateAdd;
 import cloud.terium.plugin.TeriumPlugin;
 import cloud.terium.plugin.bukkit.TeriumBukkitStartup;
 import cloud.terium.plugin.impl.module.LoadedModule;
 import cloud.terium.plugin.impl.node.Node;
 import cloud.terium.plugin.velocity.TeriumVelocityStartup;
-import cloud.terium.teriumapi.TeriumAPI;
 import cloud.terium.teriumapi.entity.impl.CloudPlayer;
 import cloud.terium.teriumapi.events.config.ReloadConfigEvent;
 import cloud.terium.teriumapi.events.group.CloudGroupCreatedEvent;
@@ -29,15 +37,7 @@ import cloud.terium.teriumapi.events.service.CloudServiceStartedEvent;
 import cloud.terium.teriumapi.events.service.CloudServiceStartingEvent;
 import cloud.terium.teriumapi.events.service.CloudServiceStoppedEvent;
 import cloud.terium.teriumapi.events.service.CloudServiceUpdateEvent;
-import cloud.terium.teriumapi.pipe.Handler;
-import cloud.terium.teriumapi.pipe.IDefaultTeriumNetworking;
-import cloud.terium.teriumapi.pipe.Packet;
-import cloud.terium.teriumapi.service.ServiceType;
-import cloud.terium.teriumapi.service.group.impl.DefaultLobbyGroup;
-import cloud.terium.teriumapi.service.group.impl.DefaultProxyGroup;
-import cloud.terium.teriumapi.service.group.impl.DefaultServerGroup;
 import cloud.terium.teriumapi.service.impl.CloudService;
-import cloud.terium.teriumapi.template.ITemplate;
 import cloud.terium.teriumapi.template.impl.Template;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import io.netty.channel.Channel;
@@ -52,7 +52,6 @@ import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TeriumNetworking implements IDefaultTeriumNetworking {
@@ -81,40 +80,40 @@ public class TeriumNetworking implements IDefaultTeriumNetworking {
                     }
 
                     if (packet instanceof PacketPlayOutNodeAdd newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getNodeProvider().getAllNodes().add(new Node(newPacket.name(), newPacket.address(), newPacket.memory(), newPacket.connected()));
+                        TeriumCommon.getTeriumFramework().getProvider().getNodeProvider().getAllNodes().add(new Node(newPacket.name(), newPacket.address(), newPacket.memory(), newPacket.connected()));
 
                     // Templates
                     if (packet instanceof PacketPlayOutTemplateAdd newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getTemplateProvider().getAllTemplates().add(new Template(newPacket.name(), Path.of(newPacket.path())));
+                        TeriumCommon.getTeriumFramework().getProvider().getTemplateProvider().getAllTemplates().add(new Template(newPacket.name(), Path.of(newPacket.path())));
 
                     // Groups
                     if (packet instanceof PacketPlayOutGroupAdd newPacket) {
                         List<ITemplate> templates = new ArrayList<>();
-                        newPacket.templates().forEach(s -> templates.add(TeriumAPI.getTeriumAPI().getProvider().getTemplateProvider().getTemplateByName(s).orElseGet(null)));
+                        newPacket.templates().forEach(s -> templates.add(TeriumCommon.getTeriumFramework().getProvider().getTemplateProvider().getTemplateByName(s).orElseGet(null)));
 
                         switch (newPacket.serviceType()) {
                             case Lobby ->
-                                    TeriumPlugin.getInstance().getServiceGroupProvider().getAllServiceGroups().add(new DefaultLobbyGroup(newPacket.name(), newPacket.groupTitle(), TeriumAPI.getTeriumAPI().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null), templates, newPacket.version(), newPacket.maintenance(), newPacket.isStatic(), newPacket.maximumPlayers(), newPacket.memory(), newPacket.minimalServices(), newPacket.maximalServices()));
+                                    TeriumPlugin.getInstance().getServiceGroupProvider().getAllServiceGroups().add(new DefaultLobbyGroup(newPacket.name(), newPacket.groupTitle(), TeriumCommon.getTeriumFramework().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null), templates, newPacket.version(), newPacket.maintenance(), newPacket.isStatic(), newPacket.maximumPlayers(), newPacket.memory(), newPacket.minimalServices(), newPacket.maximalServices()));
                             case Server ->
-                                    TeriumPlugin.getInstance().getServiceGroupProvider().getAllServiceGroups().add(new DefaultServerGroup(newPacket.name(), newPacket.groupTitle(), TeriumAPI.getTeriumAPI().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null), templates, newPacket.version(), newPacket.maintenance(), newPacket.isStatic(), newPacket.maximumPlayers(), newPacket.memory(), newPacket.minimalServices(), newPacket.maximalServices()));
+                                    TeriumPlugin.getInstance().getServiceGroupProvider().getAllServiceGroups().add(new DefaultServerGroup(newPacket.name(), newPacket.groupTitle(), TeriumCommon.getTeriumFramework().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null), templates, newPacket.version(), newPacket.maintenance(), newPacket.isStatic(), newPacket.maximumPlayers(), newPacket.memory(), newPacket.minimalServices(), newPacket.maximalServices()));
                             case Proxy ->
-                                    TeriumPlugin.getInstance().getServiceGroupProvider().getAllServiceGroups().add(new DefaultProxyGroup(newPacket.name(), newPacket.groupTitle(), TeriumAPI.getTeriumAPI().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null), templates, newPacket.version(), newPacket.maintenance(), newPacket.isStatic(), newPacket.port(), newPacket.maximumPlayers(), newPacket.memory(), newPacket.minimalServices(), newPacket.maximalServices()));
+                                    TeriumPlugin.getInstance().getServiceGroupProvider().getAllServiceGroups().add(new DefaultProxyGroup(newPacket.name(), newPacket.groupTitle(), TeriumCommon.getTeriumFramework().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null), templates, newPacket.version(), newPacket.maintenance(), newPacket.isStatic(), newPacket.port(), newPacket.maximumPlayers(), newPacket.memory(), newPacket.minimalServices(), newPacket.maximalServices()));
                         }
                     }
 
                     // Services
                     if (packet instanceof PacketPlayOutServiceAdd newPacket) {
-                        TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getAllServices().add(new CloudService(newPacket.serviceName(), newPacket.serviceId(), newPacket.port(), newPacket.memory(), newPacket.parsedNode().orElseGet(null), newPacket.parsedServiceGroup().orElseGet(null), newPacket.parsedTemplates(), newPacket.propertyCache()));
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudServiceStartingEvent(TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(newPacket.serviceName()).orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getAllServices().add(new CloudService(newPacket.serviceName(), newPacket.serviceId(), newPacket.port(), newPacket.memory(), newPacket.parsedNode().orElseGet(null), newPacket.parsedServiceGroup().orElseGet(null), newPacket.parsedTemplates(), newPacket.propertyCache()));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudServiceStartingEvent(TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(newPacket.serviceName()).orElseGet(null)));
                     }
                     if (packet instanceof PacketPlayOutServiceRemove newPacket) {
-                        TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(newPacket.serviceName()).ifPresentOrElse(cloudService -> TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudServiceStoppedEvent(newPacket.parsedCloudService().orElseGet(null))), () -> {
+                        TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(newPacket.serviceName()).ifPresentOrElse(cloudService -> TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudServiceStoppedEvent(newPacket.parsedCloudService().orElseGet(null))), () -> {
                             System.out.println("Service with that name isn't registered!");
                         });
-                        newPacket.parsedCloudService().ifPresent(cloudService -> TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getAllServices().remove(cloudService));
+                        newPacket.parsedCloudService().ifPresent(cloudService -> TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getAllServices().remove(cloudService));
                     }
                     if (packet instanceof PacketPlayOutUpdateService newPacket) {
-                        TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(newPacket.serviceName()).ifPresent(cloudService -> {
+                        TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(newPacket.serviceName()).ifPresent(cloudService -> {
                             cloudService.setUsedMemory((long) newPacket.memory());
                             cloudService.setServiceState(newPacket.serviceState());
                             cloudService.setOnlinePlayers(newPacket.players());
@@ -124,8 +123,8 @@ public class TeriumNetworking implements IDefaultTeriumNetworking {
                     }
 
                     if(packet instanceof PacketPlayOutServiceAddProperties newPacket) {
-                        newPacket.propertiesCache().forEach((s, o) -> TeriumAPI.getTeriumAPI().getProvider().getThisService().addProperty(s, o));
-                        TeriumAPI.getTeriumAPI().getProvider().getThisService().update();
+                        newPacket.propertiesCache().forEach((s, o) -> TeriumCommon.getTeriumFramework().getProvider().getThisService().addProperty(s, o));
+                        TeriumCommon.getTeriumFramework().getProvider().getThisService().update();
                     }
 
                     // Players
@@ -144,24 +143,24 @@ public class TeriumNetworking implements IDefaultTeriumNetworking {
 
                     // module
                     if (packet instanceof PacketPlayOutAddLoadedModule newPacket) {
-                        TeriumAPI.getTeriumAPI().getProvider().getModuleProvider().getAllModules().add(new LoadedModule(newPacket.name()
+                        TeriumCommon.getTeriumFramework().getProvider().getModuleProvider().getAllModules().add(new LoadedModule(newPacket.name()
                                 , newPacket.fileName(), newPacket.author(), newPacket.version(), newPacket.description(), newPacket.mainClass(), newPacket.reloadable(), newPacket.moduleType()));
                     }
 
                     // Event cast
                     // group
                     if (packet instanceof PacketPlayOutCreateServerGroup newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudGroupCreatedEvent(TeriumAPI.getTeriumAPI().getProvider().getServiceGroupProvider().getServiceGroupByName(newPacket.name()).orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudGroupCreatedEvent(TeriumCommon.getTeriumFramework().getProvider().getServiceGroupProvider().getServiceGroupByName(newPacket.name()).orElseGet(null)));
                     if (packet instanceof PacketPlayOutCreateLobbyGroup newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudGroupCreatedEvent(TeriumAPI.getTeriumAPI().getProvider().getServiceGroupProvider().getServiceGroupByName(newPacket.name()).orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudGroupCreatedEvent(TeriumCommon.getTeriumFramework().getProvider().getServiceGroupProvider().getServiceGroupByName(newPacket.name()).orElseGet(null)));
                     if (packet instanceof PacketPlayOutCreateProxyGroup newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudGroupCreatedEvent(TeriumAPI.getTeriumAPI().getProvider().getServiceGroupProvider().getServiceGroupByName(newPacket.name()).orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudGroupCreatedEvent(TeriumCommon.getTeriumFramework().getProvider().getServiceGroupProvider().getServiceGroupByName(newPacket.name()).orElseGet(null)));
                     if (packet instanceof PacketPlayOutGroupDelete newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudGroupDeleteEvent(newPacket.parsedServiceGroup().orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudGroupDeleteEvent(newPacket.parsedServiceGroup().orElseGet(null)));
                     if (packet instanceof PacketPlayOutGroupUpdate newPacket) {
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudGroupUpdatedEvent(newPacket.parsedServiceGroup().orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudGroupUpdatedEvent(newPacket.parsedServiceGroup().orElseGet(null)));
                         newPacket.parsedServiceGroup().ifPresent(serviceGroup -> {
-                            serviceGroup.setGroupNode(TeriumAPI.getTeriumAPI().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null));
+                            serviceGroup.setGroupNode(TeriumCommon.getTeriumFramework().getProvider().getNodeProvider().getNodeByName(newPacket.node()).orElseGet(null));
                             serviceGroup.setMemory(newPacket.memory());
                             serviceGroup.setVersion(newPacket.version());
                             serviceGroup.setStatic(newPacket.isStatic());
@@ -173,42 +172,42 @@ public class TeriumNetworking implements IDefaultTeriumNetworking {
                     }
                     // node
                     if (packet instanceof PacketPlayOutNodeStarted newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new NodeLoggedInEvent(newPacket.parsedNode().orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new NodeLoggedInEvent(newPacket.parsedNode().orElseGet(null)));
                     if (packet instanceof PacketPlayOutNodeShutdowned newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new NodeLoggedOutEvent(newPacket.parsedNode().orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new NodeLoggedOutEvent(newPacket.parsedNode().orElseGet(null)));
                     // player
                     if (packet instanceof PacketPlayOutCloudPlayerJoin newPacket)
                         newPacket.parsedCloudPlayer().ifPresent(cloudPlayer -> {
-                            TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudPlayerJoinEvent(cloudPlayer));
+                            TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudPlayerJoinEvent(cloudPlayer));
                         });
                     if (packet instanceof PacketPlayOutCloudPlayerQuit newPacket) {
                         newPacket.parsedCloudPlayer().ifPresent(cloudPlayer -> {
-                            TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudPlayerQuitEvent(cloudPlayer));
+                            TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudPlayerQuitEvent(cloudPlayer));
                             TeriumPlugin.getInstance().getCloudPlayerProvider().getOnlinePlayers().remove(cloudPlayer);
                         });
                     }
                     if (packet instanceof PacketPlayOutCloudPlayerConnectedService newPacket)
                         newPacket.parsedCloudPlayer().ifPresent(cloudPlayer -> {
-                            TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudPlayerServiceConnectedEvent(cloudPlayer, newPacket.parsedCloudService().orElseGet(null)));
+                            TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudPlayerServiceConnectedEvent(cloudPlayer, newPacket.parsedCloudService().orElseGet(null)));
                         });
                     if (packet instanceof PacketPlayOutCloudPlayerConnect newPacket)
                         newPacket.parsedCloudPlayer().ifPresent(cloudPlayer -> {
-                            TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudPlayerServiceConnectEvent(cloudPlayer, newPacket.parsedCloudService().orElseGet(null)));
+                            TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudPlayerServiceConnectEvent(cloudPlayer, newPacket.parsedCloudService().orElseGet(null)));
                         });
                     if (packet instanceof PacketPlayOutCloudPlayerUpdate newPacket)
                         newPacket.parsedCloudPlayer().ifPresent(cloudPlayer -> {
-                            TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudPlayerUpdateEvent(cloudPlayer, newPacket.username(), newPacket.address(), newPacket.value(), newPacket.signature(), newPacket.parsedCloudService().orElseGet(null)));
+                            TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudPlayerUpdateEvent(cloudPlayer, newPacket.username(), newPacket.address(), newPacket.value(), newPacket.signature(), newPacket.parsedCloudService().orElseGet(null)));
                         });
                     // service
                     if (packet instanceof PacketPlayOutSuccessfullyServiceStarted newPacket)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudServiceStartedEvent(newPacket.parsedCloudService().orElseGet(null)));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudServiceStartedEvent(newPacket.parsedCloudService().orElseGet(null)));
                     if (packet instanceof PacketPlayOutUpdateService newPacket)
-                        newPacket.parsedCloudService().ifPresent(cloudService -> TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudServiceUpdateEvent(cloudService, newPacket.locked(), newPacket.serviceState(), newPacket.players(), (long) newPacket.memory())));
+                        newPacket.parsedCloudService().ifPresent(cloudService -> TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudServiceUpdateEvent(cloudService, newPacket.locked(), newPacket.serviceState(), newPacket.players(), (long) newPacket.memory())));
 
-                    if (TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(TeriumPlugin.getInstance().getThisName()).isPresent()) {
-                        if (TeriumAPI.getTeriumAPI().getProvider().getThisService().getServiceType().equals(ServiceType.Proxy)) {
+                    if (TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(TeriumPlugin.getInstance().getThisName()).isPresent()) {
+                        if (TeriumCommon.getTeriumFramework().getProvider().getThisService().getServiceType().equals(ServiceType.Proxy)) {
                             if (packet instanceof PacketPlayOutSuccessfullyServiceStarted packetAdd) {
-                                if (!TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(packetAdd.serviceName()).orElseGet(null).getServiceType().equals(ServiceType.Proxy)) {
+                                if (!TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(packetAdd.serviceName()).orElseGet(null).getServiceType().equals(ServiceType.Proxy)) {
                                     if (TeriumVelocityStartup.getInstance().getProxyServer().getServer(packetAdd.serviceName()).isPresent()) {
                                         return;
                                     }
@@ -232,20 +231,20 @@ public class TeriumNetworking implements IDefaultTeriumNetworking {
                             }
 
                             if (packet instanceof PacketPlayOutServiceExecuteCommand newPacket)
-                                if (TeriumAPI.getTeriumAPI().getProvider().getThisService().getServiceName().equals(newPacket.cloudService()))
+                                if (TeriumCommon.getTeriumFramework().getProvider().getThisService().getServiceName().equals(newPacket.cloudService()))
                                     TeriumVelocityStartup.getInstance().executeCommand(newPacket.command());
                         } else {
                             if (packet instanceof PacketPlayOutServiceExecuteCommand newPacket)
-                                if (TeriumAPI.getTeriumAPI().getProvider().getThisService().getServiceName().equals(newPacket.cloudService()))
+                                if (TeriumCommon.getTeriumFramework().getProvider().getThisService().getServiceName().equals(newPacket.cloudService()))
                                     TeriumBukkitStartup.getInstance().executeCommand(newPacket.command());
                         }
                     }
 
                     // reload
                     if (packet instanceof PacketPlayOutReloadConfig)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new ReloadConfigEvent());
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new ReloadConfigEvent());
                     if (packet instanceof PacketPlayOutGroupsReload)
-                        TeriumAPI.getTeriumAPI().getProvider().getEventProvider().callEvent(new CloudGroupsReloadEvent(TeriumAPI.getTeriumAPI().getProvider().getServiceGroupProvider().getAllServiceGroups()));
+                        TeriumCommon.getTeriumFramework().getProvider().getEventProvider().callEvent(new CloudGroupsReloadEvent(TeriumCommon.getTeriumFramework().getProvider().getServiceGroupProvider().getAllServiceGroups()));
                 } catch (
                         Exception exception) {
                     exception.printStackTrace();
