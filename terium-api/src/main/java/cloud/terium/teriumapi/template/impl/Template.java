@@ -1,6 +1,6 @@
 package cloud.terium.teriumapi.template.impl;
 
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.templates.ITemplate;
 
 import java.nio.file.Path;
 

@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.service;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.service.PacketPlayOutServiceShutdown;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.service.PacketPlayOutServiceShutdown;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 @Getter
@@ -16,6 +17,6 @@ public class ServiceStopEvent extends Event {
         this.cloudService = cloudService;
         this.node = node;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceShutdown(cloudService, node));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceShutdown(cloudService, node));
     }
 }

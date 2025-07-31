@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.service.template;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.template.PacketPlayOutTemplateDelete;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.template.PacketPlayOutTemplateDelete;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 @Getter
@@ -14,6 +15,6 @@ public class TemplateDeleteEvent extends Event {
     public TemplateDeleteEvent(String template) {
         this.template = template;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutTemplateDelete(template));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutTemplateDelete(template));
     }
 }

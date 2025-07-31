@@ -1,8 +1,8 @@
 package cloud.terium.plugin.impl.service;
 
-import cloud.terium.teriumapi.service.ICloudService;
-import cloud.terium.teriumapi.service.ICloudServiceProvider;
-import cloud.terium.teriumapi.service.ServiceType;
+import cloud.terium.common.services.ICloudService;
+import cloud.terium.common.services.ICloudServiceProvider;
+import cloud.terium.common.services.ServiceType;
 
 import java.util.LinkedList;
 import java.util.List;

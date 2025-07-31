@@ -1,5 +1,7 @@
 package cloud.terium.teriumapi.event;
 
+import cloud.terium.common.event.EventPriority;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
