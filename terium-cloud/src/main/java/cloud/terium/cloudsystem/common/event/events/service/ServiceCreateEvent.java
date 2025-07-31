@@ -1,12 +1,13 @@
 package cloud.terium.cloudsystem.common.event.events.service;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.service.PacketPlayOutCreateService;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.service.PacketPlayOutCreateService;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -38,6 +39,6 @@ public class ServiceCreateEvent extends Event {
         this.port = port;
         this.type = type;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCreateService(serviceName, serviceId, port, maxPlayers, memory, node.getName(), serviceGroup.getGroupName(), templates.stream().map(ITemplate::getName).toList(), propertyCache, type));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCreateService(serviceName, serviceId, port, maxPlayers, memory, node.getName(), serviceGroup.getGroupName(), templates.stream().map(ITemplate::getName).toList(), propertyCache, type));
     }
 }

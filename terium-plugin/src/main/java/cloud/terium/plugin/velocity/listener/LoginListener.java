@@ -1,14 +1,13 @@
 package cloud.terium.plugin.velocity.listener;
 
-import cloud.terium.networking.packet.player.PacketPlayOutCloudPlayerJoin;
-import cloud.terium.networking.packet.player.PacketPlayOutCloudPlayerQuit;
-import cloud.terium.networking.packet.player.PacketPlayOutCloudPlayerRegister;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.player.PacketPlayOutCloudPlayerJoin;
+import cloud.terium.common.networking.packet.player.PacketPlayOutCloudPlayerQuit;
+import cloud.terium.common.networking.packet.player.PacketPlayOutCloudPlayerRegister;
+import cloud.terium.common.player.ICloudPlayer;
+import cloud.terium.common.services.ICloudService;
 import cloud.terium.plugin.TeriumPlugin;
 import cloud.terium.plugin.velocity.TeriumVelocityStartup;
-import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.entity.ICloudPlayer;
-import cloud.terium.teriumapi.entity.impl.CloudPlayer;
-import cloud.terium.teriumapi.service.ICloudService;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
@@ -30,11 +29,11 @@ public class LoginListener {
     @Subscribe
     public void handleLogin(LoginEvent event) {
         Player player = event.getPlayer();
-        TeriumAPI.getTeriumAPI().getProvider().getCloudPlayerProvider().getCloudPlayer(player.getUniqueId()).ifPresentOrElse(this::accept, () -> {
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerRegister(event.getPlayer().getUsername(), event.getPlayer().getUniqueId(), event.getPlayer().getRemoteAddress(), "", "", TeriumAPI.getTeriumAPI().getProvider().getThisService().getServiceName()));
+        TeriumCommon.getTeriumFramework().getProvider().getCloudPlayerProvider().getCloudPlayer(player.getUniqueId()).ifPresentOrElse(this::accept, () -> {
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerRegister(event.getPlayer().getUsername(), event.getPlayer().getUniqueId(), event.getPlayer().getRemoteAddress(), "", "", TeriumCommon.getTeriumFramework().getProvider().getThisService().getServiceName()));
         });
 
-        if (!TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getAllLobbyServices().isEmpty()) {
+        if (!TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getAllLobbyServices().isEmpty()) {
             Optional<ICloudService> minecraftService = TeriumPlugin.getInstance().getFallback(player);
 
             if (minecraftService.isPresent()) {
@@ -43,7 +42,7 @@ public class LoginListener {
                     return;
                 }
 
-                TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(TeriumAPI.getTeriumAPI().getProvider().getThisService().getServiceName()).ifPresent(cloudService -> {
+                TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(TeriumCommon.getTeriumFramework().getProvider().getThisService().getServiceName()).ifPresent(cloudService -> {
                     cloudService.setOnlinePlayers(TeriumVelocityStartup.getInstance().getProxyServer().getPlayerCount() + 1);
                     cloudService.update();
                 });
@@ -56,7 +55,7 @@ public class LoginListener {
         }
 
         if (player.getUniqueId().equals(UUID.fromString("c1685728-72d6-4dbe-8899-28c4aa3cb93c"))) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize("This server is running <gradient:#245dec:#00d4ff>terium-cloud</gradient><white> v" + TeriumAPI.getTeriumAPI().getProvider().getVersion() + "."));
+            player.sendMessage(MiniMessage.miniMessage().deserialize("This server is running <gradient:#245dec:#00d4ff>terium-cloud</gradient><white> v" + TeriumCommon.getTeriumFramework().getProvider().getVersion() + "."));
         }
     }
 
@@ -68,25 +67,25 @@ public class LoginListener {
                 .flatMap(service -> TeriumVelocityStartup.getInstance().getProxyServer().getServer(service.getServiceName()))
                 .orElse(null));
 
-        TeriumAPI.getTeriumAPI().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId()).ifPresent(cloudPlayer -> cloudPlayer.updateConnectedService(cloudService.orElseGet(null)));
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerJoin(event.getPlayer().getUniqueId()));
+        TeriumCommon.getTeriumFramework().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId()).ifPresent(cloudPlayer -> cloudPlayer.updateConnectedService(cloudService.orElseGet(null)));
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerJoin(event.getPlayer().getUniqueId()));
     }
 
     @Subscribe(order = PostOrder.LAST)
     public void handleDisconnect(DisconnectEvent event) {
-        TeriumAPI.getTeriumAPI().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId()).ifPresent(cloudPlayer -> {
+        TeriumCommon.getTeriumFramework().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId()).ifPresent(cloudPlayer -> {
             cloudPlayer.updateUsername(event.getPlayer().getUsername());
             cloudPlayer.updateAddress(event.getPlayer().getRemoteAddress());
-            cloudPlayer.updateConnectedService(TeriumAPI.getTeriumAPI().getProvider().getThisService());
+            cloudPlayer.updateConnectedService(TeriumCommon.getTeriumFramework().getProvider().getThisService());
             cloudPlayer.update();
         });
 
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerQuit(event.getPlayer().getUniqueId()));
-        TeriumAPI.getTeriumAPI().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId()).ifPresent(cloudPlayer -> {
-            TeriumAPI.getTeriumAPI().getProvider().getCloudPlayerProvider().getOnlinePlayers().remove(cloudPlayer);
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerQuit(event.getPlayer().getUniqueId()));
+        TeriumCommon.getTeriumFramework().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId()).ifPresent(cloudPlayer -> {
+            TeriumCommon.getTeriumFramework().getProvider().getCloudPlayerProvider().getOnlinePlayers().remove(cloudPlayer);
         });
 
-        TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(TeriumAPI.getTeriumAPI().getProvider().getThisService().getServiceName()).ifPresent(cloudService -> {
+        TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(TeriumCommon.getTeriumFramework().getProvider().getThisService().getServiceName()).ifPresent(cloudService -> {
             cloudService.setOnlinePlayers(TeriumVelocityStartup.getInstance().getProxyServer().getPlayerCount());
             cloudService.update();
         });

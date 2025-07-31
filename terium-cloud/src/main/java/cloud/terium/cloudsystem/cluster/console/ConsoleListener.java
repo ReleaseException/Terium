@@ -4,7 +4,7 @@ import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.common.event.events.console.RegisterCommandEvent;
 import cloud.terium.cloudsystem.common.event.events.console.SendConsoleEvent;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
-import cloud.terium.teriumapi.event.Listener;
+import cloud.terium.common.event.Listener;
 import cloud.terium.teriumapi.event.Subscribe;
 
 ;

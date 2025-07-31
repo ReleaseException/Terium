@@ -1,10 +1,10 @@
 package cloud.terium.plugin.velocity.listener;
 
-import cloud.terium.networking.packet.player.PacketPlayOutCloudPlayerConnectedService;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.player.PacketPlayOutCloudPlayerConnectedService;
+import cloud.terium.common.player.ICloudPlayer;
 import cloud.terium.plugin.TeriumPlugin;
 import cloud.terium.plugin.velocity.TeriumVelocityStartup;
-import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.entity.ICloudPlayer;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.KickedFromServerEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
@@ -19,11 +19,11 @@ public class ServerConnectedListener {
     @Subscribe
     public void handleServerConnected(final @NotNull ServerConnectedEvent event) {
         Player player = event.getPlayer();
-        Optional<ICloudPlayer> cloudPlayer = TeriumAPI.getTeriumAPI().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId());
+        Optional<ICloudPlayer> cloudPlayer = TeriumCommon.getTeriumFramework().getProvider().getCloudPlayerProvider().getCloudPlayer(event.getPlayer().getUniqueId());
 
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerConnectedService(player.getUniqueId(), event.getServer().getServerInfo().getName()));
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutCloudPlayerConnectedService(player.getUniqueId(), event.getServer().getServerInfo().getName()));
         cloudPlayer.ifPresent(cloudPlayer1 -> {
-            cloudPlayer1.updateConnectedService(TeriumAPI.getTeriumAPI().getProvider().getServiceProvider().getServiceByName(event.getServer().getServerInfo().getName()).orElseGet(null));
+            cloudPlayer1.updateConnectedService(TeriumCommon.getTeriumFramework().getProvider().getServiceProvider().getServiceByName(event.getServer().getServerInfo().getName()).orElseGet(null));
             cloudPlayer1.update();
         });
     }

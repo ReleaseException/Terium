@@ -2,7 +2,7 @@ package cloud.terium.cloudsystem.cluster.console;
 
 import cloud.terium.cloudsystem.TeriumCloud;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.teriumapi.console.command.Command;
+import cloud.terium.common.command.Command;
 import org.jline.reader.Candidate;
 import org.jline.reader.Completer;
 import org.jline.reader.LineReader;

@@ -5,11 +5,12 @@ import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.service.CloudService;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
 import cloud.terium.cloudsystem.common.utils.logger.LoggerColors;
-import cloud.terium.networking.packet.service.PacketPlayOutServiceExecuteCommand;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.networking.packet.service.PacketPlayOutServiceExecuteCommand;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.console.IConsoleProvider;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.console.command.Command;
+import cloud.terium.common.command.IConsoleProvider;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jline.reader.EndOfFileException;
@@ -84,7 +85,7 @@ public class ConsoleManager implements IConsoleProvider {
                     if (input.startsWith("exit"))
                         ((CloudService) ClusterStartup.getCluster().getScreenProvider().getCurrentScreen()).toggleScreen();
                     else
-                        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceExecuteCommand(ClusterStartup.getCluster().getScreenProvider().getCurrentScreen().getServiceName(), input));
+                        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceExecuteCommand(ClusterStartup.getCluster().getScreenProvider().getCurrentScreen().getServiceName(), input));
                 }
             }
         });

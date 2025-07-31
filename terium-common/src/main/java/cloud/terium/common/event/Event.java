@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.event;
+package cloud.terium.common.event;
 
 import java.io.Serializable;
 

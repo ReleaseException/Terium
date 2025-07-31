@@ -2,9 +2,9 @@ package cloud.terium.cloudsystem.cluster.console;
 
 import cloud.terium.cloudsystem.cluster.console.commands.*;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.console.command.Command;
-import cloud.terium.teriumapi.console.command.ICommandFactory;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.ICommandFactory;
+import cloud.terium.common.command.LogType;
 import lombok.Getter;
 
 import java.util.ArrayList;

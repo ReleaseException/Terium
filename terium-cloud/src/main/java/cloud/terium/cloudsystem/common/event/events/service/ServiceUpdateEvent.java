@@ -1,10 +1,11 @@
 package cloud.terium.cloudsystem.common.event.events.service;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.service.PacketPlayOutUpdateService;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.service.PacketPlayOutUpdateService;
+import cloud.terium.common.services.ServiceState;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
-import cloud.terium.teriumapi.service.ServiceState;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -27,6 +28,6 @@ public class ServiceUpdateEvent extends Event {
         this.locked = locked;
         this.propertyCache = propertyCache;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutUpdateService(cloudService, players, memory, serviceState, locked, propertyCache));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutUpdateService(cloudService, players, memory, serviceState, locked, propertyCache));
     }
 }

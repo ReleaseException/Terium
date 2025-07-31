@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.node;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.node.PacketPlayOutNodeUpdate;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.node.PacketPlayOutNodeUpdate;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 @Getter
@@ -18,6 +19,6 @@ public class NodeUpdateEvent extends Event {
         this.usedMemory = usedMemory;
         this.maxMemory = maxMemory;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutNodeUpdate(node, usedMemory, maxMemory));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutNodeUpdate(node, usedMemory, maxMemory));
     }
 }

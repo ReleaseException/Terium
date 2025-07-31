@@ -3,9 +3,9 @@ package cloud.terium.cloudsystem.node.console.commands;
 import cloud.terium.cloudsystem.node.utils.Logger;
 import cloud.terium.cloudsystem.node.NodeStartup;
 import cloud.terium.cloudsystem.node.service.CloudService;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.console.command.Command;
-import cloud.terium.teriumapi.service.ICloudService;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.services.ICloudService;
 
 import java.util.List;
 

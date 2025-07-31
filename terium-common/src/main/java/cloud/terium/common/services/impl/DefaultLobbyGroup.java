@@ -1,11 +1,11 @@
-package cloud.terium.teriumapi.service.group.impl;
+package cloud.terium.common.services.impl;
 
-import cloud.terium.networking.packet.group.PacketPlayOutGroupUpdate;
-import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.ServiceType;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.group.PacketPlayOutGroupUpdate;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.services.ServiceType;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -193,6 +193,6 @@ public class DefaultLobbyGroup implements ICloudServiceGroup {
 
     @Override
     public void update() {
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupUpdate(getGroupName(), node.getName(), version, maximumPlayers, maintenance, isStatic, memory, minimalServices, maximalServices));
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupUpdate(getGroupName(), node.getName(), version, maximumPlayers, maintenance, isStatic, memory, minimalServices, maximalServices));
     }
 }

@@ -1,9 +1,9 @@
 package cloud.terium.cloudsystem.common.pipe;
 
 import cloud.terium.cloudsystem.common.utils.logger.Logger;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.pipe.Handler;
-import cloud.terium.teriumapi.pipe.Packet;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.networking.Packet;
+import cloud.terium.common.networking.Handler;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.InvocationTargetException;

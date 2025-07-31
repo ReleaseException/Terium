@@ -2,9 +2,9 @@ package cloud.terium.cloudsystem.cluster.node;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.node.INodeProvider;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.node.INodeProvider;
 import com.google.gson.JsonObject;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;

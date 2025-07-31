@@ -3,12 +3,13 @@ package cloud.terium.cloudsystem.cluster.console.commands;
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
 import cloud.terium.cloudsystem.cluster.config.ConfigManager;
 import cloud.terium.cloudsystem.cluster.utils.Logger;
-import cloud.terium.networking.packet.PacketPlayOutReloadConfig;
-import cloud.terium.networking.packet.group.PacketPlayOutGroupsReload;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.module.ILoadedModule;
+import cloud.terium.common.networking.packet.PacketPlayOutReloadConfig;
+import cloud.terium.common.networking.packet.group.PacketPlayOutGroupsReload;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.console.command.Command;
-import cloud.terium.teriumapi.module.ILoadedModule;
 import lombok.SneakyThrows;
 
 public class ReloadCommand extends Command {
@@ -30,8 +31,8 @@ public class ReloadCommand extends Command {
         ClusterStartup.getCluster().setCloudConfig(ClusterStartup.getCluster().getConfigManager().toCloudConfig());
 
         Logger.log("Sending reloading packets...", LogType.INFO);
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutReloadConfig());
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupsReload());
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutReloadConfig());
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupsReload());
         Thread.sleep(500);
         Logger.log("Successfully reloaded terium-cloud.", LogType.INFO);
     }

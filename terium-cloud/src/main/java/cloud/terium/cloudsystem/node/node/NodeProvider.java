@@ -1,9 +1,9 @@
 package cloud.terium.cloudsystem.node.node;
 
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.node.INodeProvider;
 
-import java.util.ArrayList;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.node.INodeProvider;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;

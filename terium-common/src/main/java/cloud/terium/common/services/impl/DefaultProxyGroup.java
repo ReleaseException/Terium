@@ -1,11 +1,11 @@
-package cloud.terium.teriumapi.service.group.impl;
+package cloud.terium.common.services.impl;
 
-import cloud.terium.networking.packet.group.PacketPlayOutGroupUpdate;
-import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.ServiceType;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.group.PacketPlayOutGroupUpdate;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.services.ServiceType;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -21,23 +21,24 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DefaultServerGroup implements ICloudServiceGroup {
+public class DefaultProxyGroup implements ICloudServiceGroup {
 
     private final String name;
     private final String groupTitle;
     private INode node;
     private final List<ITemplate> templates;
-    private final ServiceType cloudServiceType = ServiceType.Server;
+    private final ServiceType cloudServiceType = ServiceType.Proxy;
+    private final int port;
     private String version;
-    private int maximumPlayers;
     private boolean maintenance;
     private boolean isStatic;
+    private int maximumPlayers;
     private int memory;
     private int minimalServices;
     private int maximalServices;
 
     @SneakyThrows
-    public DefaultServerGroup(String name, String groupTitle, INode node, List<ITemplate> templates, String version, boolean maintenance, boolean isStatic, int maximumPlayers, int memory, int minimalServices, int maximalServices) {
+    public DefaultProxyGroup(String name, String groupTitle, INode node, List<ITemplate> templates, String version, boolean maintenance, boolean isStatic, int port, int maximumPlayers, int memory, int minimalServices, int maximalServices) {
         this.name = name;
         this.groupTitle = groupTitle;
         this.node = node;
@@ -45,6 +46,7 @@ public class DefaultServerGroup implements ICloudServiceGroup {
         this.version = version;
         this.maintenance = maintenance;
         this.isStatic = isStatic;
+        this.port = port;
         this.maximumPlayers = maximumPlayers;
         this.memory = memory;
         this.minimalServices = minimalServices;
@@ -62,8 +64,9 @@ public class DefaultServerGroup implements ICloudServiceGroup {
         json.addProperty("group_title", groupTitle);
         json.addProperty("node", node.getName());
         json.add("templates", templateArray);
+        json.addProperty("servicetype", ServiceType.Proxy.name());
+        json.addProperty("port", port);
         json.addProperty("version", version);
-        json.addProperty("servicetype", cloudServiceType.name());
         json.addProperty("maintenance", maintenance);
         json.addProperty("static", isStatic);
         json.addProperty("maximum_players", maximumPlayers);
@@ -77,6 +80,7 @@ public class DefaultServerGroup implements ICloudServiceGroup {
             } catch (IOException ignored) {
             }
         });
+
         return this;
     }
 
@@ -125,6 +129,7 @@ public class DefaultServerGroup implements ICloudServiceGroup {
         return maintenance;
     }
 
+    @Override
     public void setMaintenance(boolean maintenance) {
         this.maintenance = maintenance;
     }
@@ -141,12 +146,12 @@ public class DefaultServerGroup implements ICloudServiceGroup {
 
     @Override
     public boolean hasPort() {
-        return false;
+        return true;
     }
 
     @Override
     public int getPort() {
-        return -1;
+        return port;
     }
 
     @Override
@@ -191,6 +196,6 @@ public class DefaultServerGroup implements ICloudServiceGroup {
 
     @Override
     public void update() {
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupUpdate(getGroupName(), node.getName(), version, maximumPlayers, maintenance, isStatic, memory, minimalServices, maximalServices));
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutGroupUpdate(getGroupName(), node.getName(), version, maximumPlayers, maintenance, isStatic, memory, minimalServices, maximalServices));
     }
 }

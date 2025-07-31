@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.node;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.node.PacketPlayOutNodeStarted;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.node.PacketPlayOutNodeStarted;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 import java.net.InetSocketAddress;
@@ -22,6 +23,6 @@ public class NodeLoggedInEvent extends Event {
         this.maxMemory = maxMemory;
         this.masterKey = masterKey;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutNodeStarted(node, address, maxMemory, masterKey));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutNodeStarted(node, address, maxMemory, masterKey));
     }
 }

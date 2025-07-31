@@ -1,7 +1,7 @@
 package cloud.terium.plugin.impl.node;
 
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.node.INodeProvider;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.node.INodeProvider;
 
 import java.util.ArrayList;
 import java.util.List;

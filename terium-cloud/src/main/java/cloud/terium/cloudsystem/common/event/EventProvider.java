@@ -1,10 +1,10 @@
 package cloud.terium.cloudsystem.common.event;
 
 import cloud.terium.cloudsystem.common.utils.logger.Logger;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.event.Event;
-import cloud.terium.teriumapi.event.IEventProvider;
-import cloud.terium.teriumapi.event.Listener;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.event.Event;
+import cloud.terium.common.event.IEventProvider;
+import cloud.terium.common.event.Listener;
 import cloud.terium.teriumapi.event.Subscribe;
 
 import java.lang.reflect.InvocationTargetException;

@@ -1,8 +1,8 @@
 package cloud.terium.plugin.impl.event;
 
-import cloud.terium.teriumapi.event.Event;
-import cloud.terium.teriumapi.event.IEventProvider;
-import cloud.terium.teriumapi.event.Listener;
+import cloud.terium.common.event.Event;
+import cloud.terium.common.event.IEventProvider;
+import cloud.terium.common.event.Listener;
 import cloud.terium.teriumapi.event.Subscribe;
 
 import java.lang.reflect.InvocationTargetException;

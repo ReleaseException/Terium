@@ -1,8 +1,8 @@
 package cloud.terium.plugin.impl.node;
 
-import cloud.terium.networking.packet.node.PacketPlayOutNodeUpdate;
-import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.node.INode;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.node.PacketPlayOutNodeUpdate;
+import cloud.terium.common.node.INode;
 
 import java.net.InetSocketAddress;
 
@@ -59,6 +59,6 @@ public class Node implements INode {
 
     @Override
     public void update() {
-        TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutNodeUpdate(getName(), usedMemory, maxMemory));
+        TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutNodeUpdate(getName(), usedMemory, maxMemory));
     }
 }

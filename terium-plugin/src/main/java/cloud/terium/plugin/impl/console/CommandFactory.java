@@ -1,7 +1,7 @@
 package cloud.terium.plugin.impl.console;
 
-import cloud.terium.teriumapi.console.command.Command;
-import cloud.terium.teriumapi.console.command.ICommandFactory;
+import cloud.terium.common.command.Command;
+import cloud.terium.common.command.ICommandFactory;
 
 public class CommandFactory implements ICommandFactory {
 

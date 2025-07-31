@@ -1,10 +1,11 @@
 package cloud.terium.cloudsystem.common.event.events.console;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.console.PacketPlayOutSendConsole;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.command.LogType;
+import cloud.terium.common.networking.packet.console.PacketPlayOutSendConsole;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.console.LogType;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 @Getter
@@ -17,6 +18,6 @@ public class SendConsoleEvent extends Event {
         this.message = message;
         this.logType = logType;
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutSendConsole(message, logType));
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutSendConsole(message, logType));
     }
 }

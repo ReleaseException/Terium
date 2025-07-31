@@ -6,8 +6,6 @@ import cloud.terium.teriumapi.console.LogType;
 import cloud.terium.teriumapi.event.Listener;
 import cloud.terium.teriumapi.event.Subscribe;
 import cloud.terium.teriumapi.events.player.CloudPlayerJoinEvent;
-import cloud.terium.teriumapi.events.player.CloudPlayerQuitEvent;
-import cloud.terium.teriumapi.events.player.CloudPlayerServiceConnectedEvent;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 

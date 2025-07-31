@@ -1,9 +1,10 @@
 package cloud.terium.cloudsystem.common.event.events.service;
 
 import cloud.terium.cloudsystem.cluster.ClusterStartup;
-import cloud.terium.networking.packet.service.PacketPlayOutServiceAdd;
+import cloud.terium.common.TeriumCommon;
+import cloud.terium.common.networking.packet.service.PacketPlayOutServiceAdd;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.event.Event;
+import cloud.terium.common.event.Event;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class ServiceAddEvent extends Event {
         this.propertyCache = propertyCache;
 
         if (ClusterStartup.getCluster() != null)
-            TeriumAPI.getTeriumAPI().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceAdd(serviceName, serviceId, port, maxPlayers, memory,
+            TeriumCommon.getTeriumFramework().getProvider().getTeriumNetworking().sendPacket(new PacketPlayOutServiceAdd(serviceName, serviceId, port, maxPlayers, memory,
                     node, serviceGroup, templates, propertyCache));
     }
 }

@@ -1,4 +1,4 @@
-package cloud.terium.teriumapi.service;
+package cloud.terium.common.services;
 
 import java.io.Serializable;
 

@@ -1,18 +1,9 @@
 package cloud.terium.teriumapi.service;
 
-import cloud.terium.networking.packet.group.PacketPlayOutCreateLobbyGroup;
-import cloud.terium.networking.packet.group.PacketPlayOutCreateProxyGroup;
-import cloud.terium.networking.packet.group.PacketPlayOutCreateServerGroup;
-import cloud.terium.networking.packet.service.PacketPlayOutCreateService;
-import cloud.terium.networking.packet.service.PacketPlayOutUpdateService;
 import cloud.terium.teriumapi.TeriumAPI;
-import cloud.terium.teriumapi.node.INode;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
-import cloud.terium.teriumapi.service.group.impl.DefaultLobbyGroup;
-import cloud.terium.teriumapi.service.group.impl.DefaultProxyGroup;
-import cloud.terium.teriumapi.service.group.impl.DefaultServerGroup;
-import cloud.terium.teriumapi.service.impl.CloudService;
-import cloud.terium.teriumapi.template.ITemplate;
+import cloud.terium.common.node.INode;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
+import cloud.terium.common.templates.ITemplate;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -78,6 +69,6 @@ public class ServiceBuilder {
         if (templates == null)
             templates = new LinkedList<>(serviceGroup.getTemplates());
 
-        TeriumAPI.getTeriumAPI().getFactory().getServiceFactory().createService(serviceName, serviceGroup, templates, serviceId, maximumPlayers, maxMemory, propertyCache);
+        TeriumAPI.getTeriumFramework().getFactory().getServiceFactory().createService(serviceName, serviceGroup, templates, serviceId, maximumPlayers, maxMemory, propertyCache);
     }
 }
