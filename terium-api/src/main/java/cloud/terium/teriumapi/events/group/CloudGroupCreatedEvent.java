@@ -1,7 +1,7 @@
 package cloud.terium.teriumapi.events.group;
 
-import cloud.terium.teriumapi.event.Event;
-import cloud.terium.teriumapi.service.group.ICloudServiceGroup;
+import cloud.terium.common.event.Event;
+import cloud.terium.common.services.groups.ICloudServiceGroup;
 import lombok.Getter;
 
 @Getter
