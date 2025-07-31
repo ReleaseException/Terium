@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.94.Final'
+}
