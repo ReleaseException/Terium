@@ -65,3 +65,4 @@ In order to receive updates from the Terium Cloud, you must ensure that on your 
 | ReleaseNetworks      | cdn.releasenetworks.cloud | 443  |,
 
 Custom Endpoints can be defined in the config.json under "updateEndpoints".
+
