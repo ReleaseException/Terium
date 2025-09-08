@@ -25,7 +25,6 @@
 - [Latest Release](https://github.com/TeriumCloud/Terium/releases)
 - [Documentation](https://github.com/TeriumCloud/Terium/wiki)
 - [GitHub repo](https://github.com/TeriumCloud/Terium)
-- [Discord Support](https://discord.com/invite/5VrY59sffQ)
 
 ## Installation (MASTER/CLUSTER)
 
@@ -47,20 +46,22 @@
 
 ## Supported Java Versions
 
-- Java 15 and lower - Not Supported
-- Java 16 and higher - Supported
-- Java 16 - Recommended
+- Java 23 and higher - Supported
 
 ## Supported Minecraft Versions
 
-- [Paper](https://papermc.io) 1.12.2 - 1.19.4
-- [Purpur](https://purpurmc.org/) 1.16.5 - 1.19.4
-- [Velocity](https://velocitypowered.com)
+- [Paper](https://papermc.io/software/paper) 1.12.2 - 1.21.8
+- [Purpur](https://purpurmc.org/download/purpur) 1.16.5 - 1.21.8
+- [Velocity](https://papermc.io/software/velocity)
+- [Folia](https://papermc.io/software/folia) 1.21.8
 
-## Thanks to
+## Update Endpoints
 
-Thanks to all partners of TeriumCloud and persons who helped:
+In order to receive updates from the Terium Cloud, you must ensure that on your server, that at least one of following endpoints are accessible:
 
-- [invis-cloud.de](https://invis-cloud.de) (Hosting solution)
-- [TGamings](https://github.com/TGamings)
-- [MenschenToaster](https://github.com/MenschenToaster)
+| Service              | Endpoint                  | Port |
+|----------------------|---------------------------|------|
+| Releaseteam          | cdn.releaseteam.de        | 443  |
+| ReleaseNetworks      | cdn.releasenetworks.cloud | 443  |,
+
+Custom Endpoints can be defined in the config.json under "updateEndpoints".
